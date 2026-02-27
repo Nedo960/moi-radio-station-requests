@@ -13,8 +13,8 @@
  */
 
 const config = {
-  // API Base URL - defaults to localhost for development
-  API_URL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  // API Base URL - defaults to /api for Vercel deployment
+  API_URL: process.env.REACT_APP_API_URL || '/api',
 
   // Other configuration options can be added here
   APP_NAME: 'Radio Station Request System',
