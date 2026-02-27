@@ -1,0 +1,45 @@
+# Netlify Configuration for Radio Station Request System Frontend
+
+[build]
+  # Build command
+  command = "npm run build"
+
+  # Publish directory (React creates 'build' folder)
+  publish = "build"
+
+  # Functions directory (if needed in future)
+  # functions = "functions"
+
+[build.environment]
+  # Node version for build
+  NODE_VERSION = "18"
+
+# Redirect rules for React Router (SPA)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Headers for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-XSS-Protection = "1; mode=block"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Cache static assets
+[[headers]]
+  for = "/static/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Environment-specific settings
+[context.production.environment]
+  # Production environment variables (set in Netlify dashboard)
+  # REACT_APP_API_URL will be set in dashboard
+
+[context.deploy-preview.environment]
+  # Preview deployment environment
+  NODE_ENV = "development"

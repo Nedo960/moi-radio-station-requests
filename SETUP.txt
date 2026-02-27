@@ -1,0 +1,78 @@
+🚀 RADIO STATION REQUEST SYSTEM - LOCAL SETUP GUIDE
+=================================================
+
+PREREQUISITES:
+-------------
+1. PostgreSQL installed and running
+2. Node.js installed (v14 or higher)
+
+SETUP STEPS:
+-----------
+
+1. CREATE DATABASE:
+   Open PostgreSQL command line (psql) and run:
+
+   CREATE DATABASE radio_station_requests;
+
+2. UPDATE DATABASE CONNECTION:
+   Edit backend/.env file and update DATABASE_URL with your PostgreSQL credentials:
+
+   DATABASE_URL=postgresql://YOUR_USERNAME:YOUR_PASSWORD@localhost:5432/radio_station_requests
+
+3. SETUP BACKEND:
+   cd backend
+   npm install
+   npm run setup-db
+   npm run dev
+
+   Backend will run on: http://localhost:5000
+
+4. SETUP FRONTEND (in a new terminal):
+   cd frontend
+   npm install
+   npm start
+
+   Frontend will run on: http://localhost:3000
+
+LOGIN CREDENTIALS:
+-----------------
+Requester (Quran Station):
+  Employee Number: 10001
+  Password: password123
+
+Level 1 Approver (عيسى العنزي):
+  Employee Number: 20001
+  Password: password123
+
+Level 2 Approver (مشعل سعود الزمنان):
+  Employee Number: 30001
+  Password: password123
+
+Level 3 Approver (Eng. صادق):
+  Employee Number: 40001
+  Password: password123
+
+TESTING WORKFLOW:
+----------------
+1. Login as Requester (10001) → Submit a new request
+2. Logout and login as Level 1 (20001) → Approve the request
+3. Logout and login as Level 2 (30001) → Approve the request
+4. Logout and login as Level 3 (40001) → Approve/Decline the request
+5. Login back as Requester (10001) → See final status
+
+TIME TRACKING:
+-------------
+The system automatically tracks:
+- Time between Level 1 and Level 2 responses
+- Time between Level 2 and Level 3 responses
+- Each approver can see how long the next level took
+
+DEPLOYMENT TO NETLIFY:
+---------------------
+(Instructions will be provided after local testing)
+
+TROUBLESHOOTING:
+---------------
+- If database connection fails, check PostgreSQL is running
+- If port 5000 is in use, change PORT in backend/.env
+- If port 3000 is in use, React will prompt to use another port
