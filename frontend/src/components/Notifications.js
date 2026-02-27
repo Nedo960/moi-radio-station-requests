@@ -12,6 +12,7 @@ const Notifications = ({ user, onViewAll }) => {
     // Poll for new notifications every 10 seconds
     const interval = setInterval(fetchNotifications, 10000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const loadNotifications = () => {

@@ -10,6 +10,7 @@ const RequestModal = ({ request, user, onClose, onUpdate }) => {
 
   useEffect(() => {
     fetchRequestDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [request.id]);
 
   const fetchRequestDetails = async () => {
@@ -128,7 +129,7 @@ const RequestModal = ({ request, user, onClose, onUpdate }) => {
     );
   }
 
-  const { request: req, history } = requestDetails;
+  const { request: req } = requestDetails;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
