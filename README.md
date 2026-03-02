@@ -1,324 +1,232 @@
-# Radio Station Request System - MOI Kuwait
+# MOI Radio Station Request System
 
-A complete workflow management system for handling radio archive folder requests with multi-level approval process.
+🎙️ **Multi-level approval workflow system for radio archive folder requests**
 
-## 🎯 Overview
+[![Status](https://img.shields.io/badge/Status-Production-success)]()
+[![Frontend](https://img.shields.io/badge/Frontend-Netlify-00C7B7)]()
+[![Backend](https://img.shields.io/badge/Backend-Railway-7C3AED)]()
+[![Database](https://img.shields.io/badge/Database-PostgreSQL-316192)]()
 
-This system enables radio stations to request archive folders through a structured approval workflow involving three approval levels:
-1. **Level 1:** عيسى العنزي (General Manager)
-2. **Level 2:** مشعل سعود الزمنان (Supervisor)
-3. **Level 3:** Eng. صادق (Archive Department Head)
+## 📋 Overview
+
+A complete workflow management system for handling radio station archive folder requests through a structured 3-level approval process.
+
+**Workflow:** Requester → Level 1 Approval → Level 2 Approval → Level 3 Final Approval
+
+## 🚀 Live Application
+
+- **Frontend (Netlify):** [Your Netlify URL]
+- **Backend API (Railway):** https://web-production-7c153.up.railway.app/api
+
+## ✨ Features
+
+- ✅ Multi-level approval workflow (3 levels)
+- ✅ Role-based access control (Requester, Level 1, 2, 3)
+- ✅ JWT authentication & authorization
+- ✅ Real-time request status tracking
+- ✅ Arabic/English bilingual interface
+- ✅ Request history & audit trail
+- ✅ Responsive design (desktop & mobile)
+- ✅ Auto-deployment from GitHub
 
 ## 🏗️ Architecture
 
-### Frontend
-- **Technology:** React 19
-- **Hosting:** Netlify (recommended)
-- **Features:**
-  - Responsive Arabic UI
-  - Real-time notifications
-  - Role-based dashboards
-  - Request timeline visualization
+```
+┌─────────────┐         ┌──────────────┐         ┌──────────────┐
+│   Netlify   │────────▶│   Railway    │────────▶│  PostgreSQL  │
+│  (Frontend) │  HTTPS  │  (Backend)   │   SQL   │  (Database)  │
+└─────────────┘         └──────────────┘         └──────────────┘
+    React 19              Node.js + Express         Railway PG
+```
 
-### Backend
-- **Technology:** Node.js + Express
-- **Database:** PostgreSQL
-- **Hosting:** Render (recommended)
-- **Features:**
-  - JWT authentication
-  - RESTful API
-  - State machine workflow
-  - Transaction-based operations
+### Tech Stack
+
+**Frontend:**
+- React 19.2.4
+- Modern CSS (Flexbox/Grid)
+- JWT token management
+- Deployed on Netlify
+
+**Backend:**
+- Node.js with Express 5.2.1
+- PostgreSQL database
+- Bcrypt password hashing
+- JWT authentication
+- Deployed on Railway
 
 ## 📁 Project Structure
 
 ```
-raido station request folder/
-├── frontend/               # React application
+moi-radio-station-requests/
+├── frontend/                 # React application
 │   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── config.js      # Environment configuration
-│   │   ├── index.css      # Global styles
-│   │   └── ...
-│   ├── public/            # Static assets
-│   ├── .env.example       # Environment template
-│   ├── netlify.toml       # Netlify configuration
+│   │   ├── components/      # React components
+│   │   │   ├── Login.js
+│   │   │   ├── Dashboard.js
+│   │   │   ├── SubmitForm.js
+│   │   │   ├── RequestList.js
+│   │   │   ├── RequestModal.js
+│   │   │   └── Notifications.js
+│   │   ├── config.js        # API configuration
+│   │   ├── App.js
+│   │   └── index.css
+│   ├── public/
+│   ├── netlify.toml         # Netlify config
 │   └── package.json
 │
-├── backend/               # Express API server
-│   ├── server.js          # PostgreSQL version (production)
-│   ├── server-sqlite.js   # SQLite version (local dev)
-│   ├── setup-db-postgres.js    # PostgreSQL setup
-│   ├── setup-db-sqlite.js      # SQLite setup
-│   ├── .env.example       # Environment template
-│   └── package.json
+├── backend/                  # Express API server
+│   ├── server.js            # Main server (PostgreSQL)
+│   ├── setup-db-postgres.js # Database initialization
+│   ├── package.json
+│   └── .env (gitignored)
 │
-├── NETLIFY_DEPLOYMENT_GUIDE.md  # Step-by-step deployment
-├── QUICK_REFERENCE.md           # Quick reference card
-├── PROJECT_SUMMARY.md           # Project overview
-├── CODE_SNIPPETS.md             # Useful code examples
-└── README.md                     # This file
+├── DEPLOYMENT_SUMMARY.md    # Complete deployment guide
+├── package.json             # Root package for Railway
+└── README.md
 ```
 
 ## 🚀 Quick Start
 
+### Prerequisites
+- Node.js >= 18.0.0
+- PostgreSQL (for local development)
+- Git
+
 ### Local Development
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/moi-radio-station-requests.git
-   cd raido\ station\ request\ folder
-   ```
+```bash
+git clone https://github.com/Nedo960/moi-radio-station-requests.git
+cd moi-radio-station-requests
+```
 
 2. **Set up Backend**
-   ```bash
-   cd backend
-   npm install
-   npm run setup-db-local    # Creates SQLite database
-   npm run dev               # Starts backend on port 5000
-   ```
+```bash
+cd backend
+npm install
+cp .env.example .env
+# Edit .env with your database credentials
+node setup-db-postgres.js  # Initialize database
+npm start  # Starts on http://localhost:5000
+```
 
-3. **Set up Frontend** (in a new terminal)
-   ```bash
-   cd frontend
-   npm install
-   npm start                 # Starts frontend on port 3000
-   ```
+3. **Set up Frontend** (in new terminal)
+```bash
+cd frontend
+npm install
+# Edit src/config.js - set API_URL to http://localhost:5000/api
+npm start  # Starts on http://localhost:3000
+```
 
-4. **Access the application**
-   - Open http://localhost:3000
-   - Login with test account: `10001` / `password123`
+4. **Login with test account:**
+- Employee Number: `10001`
+- Password: `password123`
 
-### Production Deployment
+## 🌐 Deployment
 
-**See [`NETLIFY_DEPLOYMENT_GUIDE.md`](./NETLIFY_DEPLOYMENT_GUIDE.md) for complete step-by-step instructions.**
+This project auto-deploys from GitHub `main` branch:
 
-**Quick summary:**
-1. Deploy backend to Render (with PostgreSQL)
-2. Deploy frontend to Netlify
-3. Configure environment variables
-4. Update CORS settings
-5. Test workflow
+- **Frontend → Netlify:** Push to GitHub → Auto-builds & deploys
+- **Backend → Railway:** Push to GitHub → Auto-deploys
 
-**Estimated time:** 1.5-2 hours
-**Cost:** $0 (free tiers)
+See [DEPLOYMENT_SUMMARY.md](DEPLOYMENT_SUMMARY.md) for complete deployment guide.
+
+## 👥 User Roles
+
+| Role | Description | Permissions |
+|------|-------------|-------------|
+| **Requester** | Radio station staff | Create requests, view own requests |
+| **Level 1** | عيسى العنزي (Management) | Approve/decline pending_level1 requests |
+| **Level 2** | مشعل سعود الزمنان (Supervision) | Approve/decline pending_level2 requests |
+| **Level 3** | Eng. صادق (Archiving) | Final approve/decline pending_level3 requests |
 
 ## 🔐 Test Accounts
 
-| Role | Employee # | Password | Name |
-|------|-----------|----------|------|
-| **Requester** | 10001 | password123 | Quran Station |
-| **Level 1 Approver** | 20001 | password123 | عيسى العنزي |
-| **Level 2 Approver** | 30001 | password123 | مشعل سعود الزمنان |
-| **Level 3 Approver** | 40001 | password123 | Eng. صادق |
+| Employee Number | Password | Role |
+|----------------|----------|------|
+| 10001 | password123 | Requester |
+| 20001 | password123 | Level 1 Approver |
+| 30001 | password123 | Level 2 Approver |
+| 40001 | password123 | Level 3 Approver |
 
-## ✨ Features
+⚠️ **Change these passwords before production use!**
 
-### For Requesters
-- ✅ Submit folder requests with program details
-- ✅ Track request status in real-time
-- ✅ View approval history and comments
-- ✅ Receive notifications on status changes
+## 📊 API Endpoints
 
-### For Approvers
-- ✅ View pending requests requiring action
-- ✅ Approve or decline with comments
-- ✅ View complete request timeline
-- ✅ Dashboard with statistics
-
-### System Features
-- ✅ Three-level approval workflow
-- ✅ State machine ensures data integrity
-- ✅ Real-time notifications
-- ✅ Role-based access control
-- ✅ Arabic language support
-- ✅ Mobile responsive design
-- ✅ Secure JWT authentication
-
-## 🔄 Approval Workflow
-
-```mermaid
-graph TD
-    A[Requester creates request] --> B[Pending Level 1]
-    B -->|Approve| C[Pending Level 2]
-    B -->|Decline| G[Declined]
-    C -->|Approve| D[Pending Level 3]
-    C -->|Decline| G
-    D -->|Approve| E[Approved]
-    D -->|Decline| G
+```
+POST   /api/login                    # User authentication
+GET    /api/requests                 # Get all requests (filtered by role)
+POST   /api/requests                 # Create new request
+GET    /api/requests/:id             # Get single request details
+POST   /api/requests/:id/respond     # Approve/decline request
+GET    /api/dashboard/stats          # Get dashboard statistics
+GET    /api/health                   # Health check
 ```
 
-## 🌐 API Endpoints
+## 🔄 Workflow States
 
-### Authentication
 ```
-POST /api/login
-Body: { employee_number, password }
-Response: { token, user }
-```
-
-### Requests
-```
-GET    /api/requests           # Get all (filtered by role)
-GET    /api/requests/:id       # Get single with history
-POST   /api/requests           # Create new
-POST   /api/requests/:id/respond  # Approve/decline
+pending_level1 → pending_level2 → pending_level3 → approved
+       ↓                ↓                ↓
+   declined        declined        declined
 ```
 
-### Dashboard
+## 🛠️ Environment Variables
+
+### Frontend (Netlify)
 ```
-GET    /api/dashboard/stats    # Get user statistics
+REACT_APP_API_URL=https://web-production-7c153.up.railway.app/api
 ```
 
-## 🛠️ Technology Stack
+### Backend (Railway)
+```
+DATABASE_URL=postgresql://...  (auto-set by Railway)
+JWT_SECRET=your-secret-key-here
+PORT=8080  (auto-set by Railway)
+```
 
-### Frontend
-- React 19.2
-- Native CSS (no framework - optimized for Arabic RTL)
-- Fetch API for HTTP requests
+## 📝 Database Schema
 
-### Backend
-- Node.js
-- Express 5.2
-- PostgreSQL (production) / SQLite (development)
-- JWT for authentication
-- bcrypt for password hashing
+**users**
+- id, employee_number, full_name, role, department, password_hash, created_at
 
-### Deployment
-- **Frontend:** Netlify (CDN, auto-deploy, free SSL)
-- **Backend:** Render (auto-deploy, free tier, PostgreSQL included)
+**folder_requests**
+- id, request_number, requester_id, station_name, program_name, broadcast_date
+- episode_number, presenter_name, notes, status, timestamps
+- level1/2/3_approver_id, level1/2/3_comment, level1/2/3_decision
+
+**request_history**
+- id, request_id, actor_id, action, comment, previous_status, new_status, created_at
+
+## 🔧 Troubleshooting
+
+See [DEPLOYMENT_SUMMARY.md](DEPLOYMENT_SUMMARY.md#-troubleshooting) for detailed troubleshooting guide.
 
 ## 📚 Documentation
 
-- **[NETLIFY_DEPLOYMENT_GUIDE.md](./NETLIFY_DEPLOYMENT_GUIDE.md)** - Complete deployment walkthrough
-- **[QUICK_REFERENCE.md](./QUICK_REFERENCE.md)** - Commands, URLs, troubleshooting
-- **[PROJECT_SUMMARY.md](./PROJECT_SUMMARY.md)** - System overview and architecture
-- **[CODE_SNIPPETS.md](./CODE_SNIPPETS.md)** - Useful code examples
-- **[DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md)** - Alternative deployment options
+- [DEPLOYMENT_SUMMARY.md](DEPLOYMENT_SUMMARY.md) - Complete deployment & maintenance guide
+- [PROJECT_SUMMARY.md](PROJECT_SUMMARY.md) - Original project specifications
 
-## 🔒 Security
+## 🤝 Contributing
 
-- JWT tokens with 24-hour expiration
-- Password hashing with bcrypt
-- CORS protection (configurable domains)
-- SQL injection prevention (parameterized queries)
-- HTTPS enforced (automatic on Netlify/Render)
-
-## 🌍 Browser Support
-
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-- Mobile browsers (iOS 14+, Android 10+)
-
-## 📱 Mobile Support
-
-Fully responsive design tested on:
-- iPhone (Safari)
-- Android (Chrome)
-- Tablets (iPad, Android tablets)
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-**"Network Error" when logging in**
-- Check backend is running
-- Verify CORS is configured
-- Check REACT_APP_API_URL is set correctly
-
-**Backend gives DATABASE_URL error**
-- Ensure environment variable is set in Render
-- Copy Internal Database URL (not External)
-
-**Changes not deploying**
-- Frontend: Clear cache, trigger new deploy
-- Backend: Git push triggers auto-deploy
-
-**Backend sleeps after 15 minutes (Render free tier)**
-- Normal behavior
-- First request takes 30-60 seconds to wake
-- Consider paid tier for production
-
-See [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) for more troubleshooting.
-
-## 📈 Performance
-
-- Frontend build size: ~500KB (gzipped)
-- Backend response time: <100ms (excluding DB)
-- Database queries: Optimized with indexes
-- Netlify CDN: Global distribution
-- Render: Auto-scaling enabled
-
-## 🎨 Customization
-
-### Change Colors
-Edit `frontend/src/index.css`:
-```css
-:root {
-  --primary: #2c3e50;    /* Main color */
-  --success: #27ae60;    /* Approved */
-  --danger: #e74c3c;     /* Declined */
-  --warning: #f39c12;    /* Pending */
-}
-```
-
-### Add New Role
-1. Update database schema
-2. Add role to `setup-db-postgres.js`
-3. Update workflow state machine in `server.js`
-4. Add role handling in frontend components
-
-### Change Approval Levels
-Modify state machine in `backend/server.js` → `/api/requests/:id/respond`
-
-## 🔮 Future Enhancements
-
-Potential features (not currently implemented):
-- Email notifications
-- File upload attachments
-- Advanced search and filters
-- Export to PDF/Excel
-- Audit logs
-- Analytics dashboard
-- Custom approval workflows
-- Multiple language support
+1. Create a feature branch: `git checkout -b feature-name`
+2. Make your changes
+3. Test locally
+4. Push to GitHub: `git push origin feature-name`
+5. Netlify/Railway will auto-deploy preview environments
 
 ## 📄 License
 
-Internal use for Ministry of Information, Kuwait.
+Private project for MOI Kuwait
 
-## 👥 Authors
+## 🙏 Acknowledgments
 
-Developed for MOI Radio Broadcasting Department.
-
-## 📞 Support
-
-For deployment issues, see:
-- [NETLIFY_DEPLOYMENT_GUIDE.md](./NETLIFY_DEPLOYMENT_GUIDE.md)
-- [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)
-
-For code issues:
-- Check browser console (F12)
-- Check Render logs (backend)
-- Check Netlify build logs (frontend)
+- Built for Ministry of Information, Kuwait
+- React team for React 19
+- Netlify & Railway for deployment platforms
 
 ---
 
-## 🎯 Getting Started Now
-
-**New to the project?**
-1. Read this README
-2. Follow [NETLIFY_DEPLOYMENT_GUIDE.md](./NETLIFY_DEPLOYMENT_GUIDE.md)
-3. Keep [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) handy
-
-**Ready to deploy?**
-1. Have accounts on Render and Netlify
-2. Follow deployment guide step-by-step
-3. Test with provided test accounts
-4. Share with team!
-
----
-
-**Made with ❤️ for MOI Kuwait** 🇰🇼
+**Status:** ✅ Production Ready
+**Last Updated:** March 3, 2026
+**Maintained by:** Nedo960
