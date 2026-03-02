@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "MOI Radio Station Request System",
   "scripts": {
-    "start": "cd backend && npm install && node server.js",
-    "build": "cd frontend && npm install && npm run build"
+    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
+    "start": "cd backend && NODE_ENV=production node server.js"
   },
   "engines": {
     "node": ">=18.0.0"

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const path = require('path');
 const { Pool } = require('pg');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
@@ -367,6 +368,20 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
+// Serve static files from React build (for production)
+if (process.env.NODE_ENV === 'production') {
+    const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'build');
+    app.use(express.static(frontendBuildPath));
+
+    // Serve React app for all non-API routes (must be last!)
+    app.get('*', (req, res) => {
+        res.sendFile(path.join(frontendBuildPath, 'index.html'));
+    });
+}
+
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    if (process.env.NODE_ENV === 'production') {
+        console.log(`Serving frontend from: ${path.join(__dirname, '..', 'frontend', 'build')}`);
+    }
 });
