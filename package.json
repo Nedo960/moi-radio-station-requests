@@ -1,0 +1,12 @@
+{
+  "name": "moi-radio-station-requests",
+  "version": "1.0.0",
+  "description": "MOI Radio Station Request System",
+  "scripts": {
+    "start": "cd backend && npm install && node server.js",
+    "build": "cd frontend && npm install && npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
