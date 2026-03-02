@@ -28,12 +28,11 @@ const config = {
   isProduction: process.env.NODE_ENV === 'production',
 };
 
-// Log configuration in development
-if (config.isDevelopment) {
-  console.log('🔧 App Configuration:', {
-    API_URL: config.API_URL,
-    Environment: process.env.NODE_ENV
-  });
-}
+// Log configuration ALWAYS (to debug production issues)
+console.log('🔧 App Configuration:', {
+  API_URL: config.API_URL,
+  Environment: process.env.NODE_ENV,
+  FullLoginURL: config.API_URL + '/login'
+});
 
 export default config;
