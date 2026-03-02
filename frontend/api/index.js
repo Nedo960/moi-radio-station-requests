@@ -23,9 +23,16 @@ function auth(req) {
 module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') { Object.entries(cors).forEach(([k,v]) => res.setHeader(k,v)); return res.status(200).json({}); }
   Object.entries(cors).forEach(([k,v]) => res.setHeader(k,v));
-  
-  const path = req.url.replace('/api','').split('?')[0];
-  
+
+  // Extract path - handle both /api/endpoint and /api/index/endpoint formats
+  let path = req.url.split('?')[0];
+  path = path.replace('/api/index', '/api').replace('/api', '');
+
+  // Add root endpoint for debugging
+  if (path === '' || path === '/') {
+    return res.json({ status: 'API is working', endpoints: ['/health', '/login', '/requests', '/dashboard/stats'] });
+  }
+
   try {
     if (req.method === 'POST' && path === '/login') {
       const { employee_number, password } = req.body;
