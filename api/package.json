@@ -1,7 +1,0 @@
-{
-  "name": "moi-radio-api",
-  "version": "1.0.0",
-  "dependencies": {
-    "jsonwebtoken": "^9.0.3"
-  }
-}
