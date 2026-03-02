@@ -374,7 +374,8 @@ if (process.env.NODE_ENV === 'production') {
     app.use(express.static(frontendBuildPath));
 
     // Serve React app for all non-API routes (must be last!)
-    app.get('*', (req, res) => {
+    // Note: Express 5 requires '/*' instead of '*'
+    app.get('/*', (req, res) => {
         res.sendFile(path.join(frontendBuildPath, 'index.html'));
     });
 }
