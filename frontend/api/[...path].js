@@ -24,13 +24,16 @@ module.exports = async (req, res) => {
   if (req.method === 'OPTIONS') { Object.entries(cors).forEach(([k,v]) => res.setHeader(k,v)); return res.status(200).json({}); }
   Object.entries(cors).forEach(([k,v]) => res.setHeader(k,v));
 
-  // Extract path - handle both /api/endpoint and /api/index/endpoint formats
-  let path = req.url.split('?')[0];
-  path = path.replace('/api/index', '/api').replace('/api', '');
+  // Extract path from query params (catch-all route) or URL
+  let path = req.query.path ? '/' + (Array.isArray(req.query.path) ? req.query.path.join('/') : req.query.path) : req.url.split('?')[0];
+
+  // Clean up path - remove /api prefix if present
+  path = path.replace('/api/', '/').replace('/api', '');
+  if (!path.startsWith('/')) path = '/' + path;
 
   // Add root endpoint for debugging
-  if (path === '' || path === '/') {
-    return res.json({ status: 'API is working', endpoints: ['/health', '/login', '/requests', '/dashboard/stats'] });
+  if (path === '/' || path === '') {
+    return res.json({ status: 'API is working', method: req.method, rawPath: req.query.path, endpoints: ['/health', '/login', '/requests', '/dashboard/stats'] });
   }
 
   try {
