@@ -371,11 +371,18 @@ app.get('/api/health', async (req, res) => {
 // Serve static files from React build (for production)
 if (process.env.NODE_ENV === 'production') {
     const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'build');
+
+    // Serve static files
     app.use(express.static(frontendBuildPath));
 
-    // Serve React app for all non-API routes (must be last!)
-    // Note: Express 5 requires '/*' instead of '*'
-    app.get('/*', (req, res) => {
+    // For any route that doesn't match API or static files, serve index.html
+    // This handles React Router routes
+    app.use((req, res, next) => {
+        // If the request is for /api, let it through to API routes
+        if (req.path.startsWith('/api')) {
+            return next();
+        }
+        // Otherwise serve the React app
         res.sendFile(path.join(frontendBuildPath, 'index.html'));
     });
 }
