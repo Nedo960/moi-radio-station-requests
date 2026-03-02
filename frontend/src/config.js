@@ -13,8 +13,8 @@
  */
 
 const config = {
-  // API Base URL - defaults to /api for Vercel deployment
-  API_URL: process.env.REACT_APP_API_URL || '/api',
+  // API Base URL - for Railway deployment with separate services
+  API_URL: process.env.REACT_APP_API_URL || 'https://web-production-7c153.up.railway.app/api',
 
   // Other configuration options can be added here
   APP_NAME: 'Radio Station Request System',

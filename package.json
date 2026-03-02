@@ -1,10 +1,9 @@
 {
-  "name": "moi-radio-station-requests",
+  "name": "moi-radio-backend",
   "version": "1.0.0",
-  "description": "MOI Radio Station Request System",
+  "description": "MOI Radio Station Request System - Backend API",
   "scripts": {
-    "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
-    "start": "npm run build && cd backend && NODE_ENV=production node server.js"
+    "start": "cd backend && node server.js"
   },
   "engines": {
     "node": ">=18.0.0"

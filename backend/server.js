@@ -479,28 +479,7 @@ app.post('/api/setup-database', async (req, res) => {
     }
 });
 
-// Serve static files from React build (for production)
-if (process.env.NODE_ENV === 'production') {
-    const frontendBuildPath = path.join(__dirname, '..', 'frontend', 'build');
-
-    // Serve static files
-    app.use(express.static(frontendBuildPath));
-
-    // For any route that doesn't match API or static files, serve index.html
-    // This handles React Router routes
-    app.use((req, res, next) => {
-        // If the request is for /api, let it through to API routes
-        if (req.path.startsWith('/api')) {
-            return next();
-        }
-        // Otherwise serve the React app
-        res.sendFile(path.join(frontendBuildPath, 'index.html'));
-    });
-}
-
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    if (process.env.NODE_ENV === 'production') {
-        console.log(`Serving frontend from: ${path.join(__dirname, '..', 'frontend', 'build')}`);
-    }
+    console.log(`🚀 Backend API server running on port ${PORT}`);
+    console.log(`📊 Database connected: ${process.env.DATABASE_URL ? 'Yes' : 'No'}`);
 });
