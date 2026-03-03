@@ -368,6 +368,43 @@ app.get('/api/health', async (req, res) => {
     }
 });
 
+// One-time update endpoint to fix Quran Station name
+app.post('/api/admin/update-quran-station-name', async (req, res) => {
+    try {
+        const result = await pool.query(
+            `UPDATE users
+             SET full_name = $1
+             WHERE employee_number = $2
+             RETURNING *`,
+            ['📖 محطة القرآن الكريم', '10001']
+        );
+
+        if (result.rowCount > 0) {
+            res.json({
+                success: true,
+                message: 'Successfully updated Quran Station name',
+                user: {
+                    employee_number: result.rows[0].employee_number,
+                    full_name: result.rows[0].full_name,
+                    role: result.rows[0].role
+                }
+            });
+        } else {
+            res.status(404).json({
+                success: false,
+                message: 'User with employee number 10001 not found'
+            });
+        }
+    } catch (error) {
+        console.error('Update Quran Station name error:', error);
+        res.status(500).json({
+            success: false,
+            error: 'Failed to update station name',
+            details: error.message
+        });
+    }
+});
+
 app.listen(PORT, () => {
     console.log(`🚀 Backend API server running on port ${PORT}`);
     console.log(`📊 Database connected: ${process.env.DATABASE_URL ? 'Yes' : 'No'}`);
