@@ -63,17 +63,17 @@ const RequestsTable = ({ requests, user, onViewRequest, onNewRequest, loading })
           <tbody>
             {requests.map((request) => (
               <tr key={request.id}>
-                <td>{request.request_number}</td>
-                <td>{request.station_name}</td>
-                <td>{request.program_name}</td>
-                <td>{formatDate(request.broadcast_date)}</td>
-                <td>
+                <td data-label="رقم الطلب">{request.request_number}</td>
+                <td data-label="اسم المحطة">{request.station_name}</td>
+                <td data-label="اسم البرنامج">{request.program_name}</td>
+                <td data-label="تاريخ البث">{formatDate(request.broadcast_date)}</td>
+                <td data-label="الحالة">
                   <span className={`status-badge ${request.status}`}>
                     {getStatusText(request.status)}
                   </span>
                 </td>
-                <td>{formatDate(request.submitted_at)}</td>
-                <td>
+                <td data-label="تاريخ التقديم">{formatDate(request.submitted_at)}</td>
+                <td data-label="إجراء">
                   <button
                     className="view-btn"
                     onClick={() => onViewRequest(request)}
