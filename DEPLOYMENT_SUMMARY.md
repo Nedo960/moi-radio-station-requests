@@ -40,7 +40,7 @@
 
 | Role | Employee Number | Password | Full Name | Department |
 |------|----------------|----------|-----------|------------|
-| Requester | 10001 | password123 | Quran Station | Radio Broadcasting |
+| Requester | 10001 | password123 | 📖 محطة القرآن الكريم | Radio Broadcasting |
 | Level 1 Approver | 20001 | password123 | عيسى العنزي | Management |
 | Level 2 Approver | 30001 | password123 | مشعل سعود الزمنان | Supervision |
 | Level 3 Approver | 40001 | password123 | Eng. صادق | Archiving |

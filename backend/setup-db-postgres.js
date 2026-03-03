@@ -95,7 +95,7 @@ const setupDatabase = async () => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const users = [
-      { employee_number: '10001', full_name: 'Quran Station', role: 'requester', department: 'Radio Broadcasting' },
+      { employee_number: '10001', full_name: '📖 محطة القرآن الكريم', role: 'requester', department: 'Radio Broadcasting' },
       { employee_number: '20001', full_name: 'عيسى العنزي', role: 'level1', department: 'Management' },
       { employee_number: '30001', full_name: 'مشعل سعود الزمنان', role: 'level2', department: 'Supervision' },
       { employee_number: '40001', full_name: 'Eng. صادق', role: 'level3', department: 'Archiving' }
