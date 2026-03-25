@@ -31,28 +31,39 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
     });
   };
 
+  // Initialize with "1- " when user focuses on empty textarea
+  const handleProgramNameFocus = () => {
+    if (!formData.program_name || formData.program_name.trim() === '') {
+      setFormData({
+        ...formData,
+        program_name: '1- '
+      });
+    }
+  };
+
   // Auto-numbering logic for program_name textarea
   const handleProgramNameKeyDown = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       const currentValue = formData.program_name;
 
-      // Find the last number in the text
-      const lines = currentValue.split('\n').filter(line => line.trim());
+      // Count all numbered lines to determine next number
+      const lines = currentValue.split('\n');
       let nextNumber = 1;
 
-      if (lines.length > 0) {
-        const lastLine = lines[lines.length - 1];
-        const match = lastLine.match(/^(\d+)-/);
+      // Find the highest number in existing lines
+      for (const line of lines) {
+        const match = line.match(/^(\d+)-/);
         if (match) {
-          nextNumber = parseInt(match[1]) + 1;
-        } else {
-          nextNumber = lines.length + 1;
+          const num = parseInt(match[1]);
+          if (num >= nextNumber) {
+            nextNumber = num + 1;
+          }
         }
       }
 
       // Add new numbered line
-      const newValue = currentValue + (currentValue ? '\n' : '') + `${nextNumber}- `;
+      const newValue = currentValue + '\n' + `${nextNumber}- `;
       setFormData({
         ...formData,
         program_name: newValue
@@ -168,13 +179,15 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
                 name="program_name"
                 value={formData.program_name}
                 onChange={handleChange}
+                onFocus={handleProgramNameFocus}
                 onKeyDown={handleProgramNameKeyDown}
                 required
-                placeholder="اكتب اسم البرنامج واضغط Enter للعنصر التالي...&#10;مثال:&#10;1- folder 56&#10;2- quran&#10;3- ..."
                 rows="8"
                 style={{
                   minHeight: '180px',
-                  resize: 'vertical'
+                  resize: 'vertical',
+                  direction: 'rtl',
+                  textAlign: 'right'
                 }}
               />
             </div>
