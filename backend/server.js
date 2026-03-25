@@ -107,13 +107,14 @@ app.post('/api/requests', authenticateToken, async (req, res) => {
         } = req.body;
 
         // Map new fields to database schema
-        // program_name in DB = session_name from frontend
-        // broadcast_date in DB = broadcast_type from frontend
-        // presenter_name in DB = program_name from frontend
+        // program_name in DB = session_name from frontend (اسم الدورة)
+        // broadcast_date in DB = today's date (since we removed date picker)
+        // episode_number in DB = broadcast_type from frontend (مباشر/مسجل)
+        // presenter_name in DB = program_name from frontend (numbered list)
         const dbProgramName = session_name || program_name;
-        const dbBroadcastDate = broadcast_type || broadcast_date || new Date().toISOString().split('T')[0];
+        const dbBroadcastDate = broadcast_date || new Date().toISOString().split('T')[0]; // Always use valid date
         const dbPresenterName = program_name || presenter_name || '';
-        const dbEpisodeNumber = episode_number || '';
+        const dbEpisodeNumber = broadcast_type || episode_number || ''; // Store broadcast type here
 
         // Generate request number
         const countResult = await client.query('SELECT COUNT(*) FROM folder_requests');
