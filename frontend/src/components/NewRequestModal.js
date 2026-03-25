@@ -78,6 +78,10 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
 
     try {
       const token = localStorage.getItem('token');
+
+      // Log the data being sent for debugging
+      console.log('Submitting request with data:', formData);
+
       const response = await fetch(`${config.API_URL}/requests`, {
         method: 'POST',
         headers: {
@@ -87,14 +91,21 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
         body: JSON.stringify(formData),
       });
 
+      console.log('Response status:', response.status);
+
       if (!response.ok) {
         const data = await response.json();
+        console.error('Error response:', data);
         throw new Error(data.error || 'فشل في إنشاء الطلب');
       }
+
+      const result = await response.json();
+      console.log('Request created successfully:', result);
 
       onSuccess();
       onClose();
     } catch (error) {
+      console.error('Submit error:', error);
       setError(error.message);
     } finally {
       setSubmitting(false);
