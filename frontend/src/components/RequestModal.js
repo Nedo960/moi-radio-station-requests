@@ -152,7 +152,7 @@ const RequestModal = ({ request, user, onClose, onUpdate }) => {
             <p>{req.station_name}</p>
           </div>
           <div className="detail-item">
-            <label>اسم البرنامج</label>
+            <label>اسم الدورة</label>
             <p>{req.program_name}</p>
           </div>
           <div className="detail-item">
@@ -160,12 +160,14 @@ const RequestModal = ({ request, user, onClose, onUpdate }) => {
             <p>{formatDate(req.broadcast_date)}</p>
           </div>
           <div className="detail-item">
-            <label>رقم الحلقة</label>
+            <label>نوع البث</label>
             <p>{req.episode_number || '-'}</p>
           </div>
-          <div className="detail-item">
-            <label>اسم المقدم</label>
-            <p>{req.presenter_name || '-'}</p>
+          <div className="detail-item" style={{ gridColumn: '1 / -1' }}>
+            <label>اسم البرنامج</label>
+            <p style={{ whiteSpace: 'pre-wrap', direction: 'rtl', textAlign: 'right' }}>
+              {req.presenter_name || '-'}
+            </p>
           </div>
           <div className="detail-item">
             <label>الحالة</label>

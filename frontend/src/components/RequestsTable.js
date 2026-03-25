@@ -53,8 +53,8 @@ const RequestsTable = ({ requests, user, onViewRequest, onNewRequest, loading })
             <tr>
               <th>رقم الطلب</th>
               <th>اسم المحطة</th>
-              <th>اسم البرنامج</th>
-              <th>تاريخ البث</th>
+              <th>اسم الدورة</th>
+              <th>نوع البث</th>
               <th>الحالة</th>
               <th>تاريخ التقديم</th>
               <th>إجراء</th>
@@ -65,8 +65,8 @@ const RequestsTable = ({ requests, user, onViewRequest, onNewRequest, loading })
               <tr key={request.id}>
                 <td data-label="رقم الطلب">{request.request_number}</td>
                 <td data-label="اسم المحطة">{request.station_name}</td>
-                <td data-label="اسم البرنامج">{request.program_name}</td>
-                <td data-label="تاريخ البث">{formatDate(request.broadcast_date)}</td>
+                <td data-label="اسم الدورة">{request.program_name}</td>
+                <td data-label="نوع البث">{request.episode_number || '-'}</td>
                 <td data-label="الحالة">
                   <span className={`status-badge ${request.status}`}>
                     {getStatusText(request.status)}
