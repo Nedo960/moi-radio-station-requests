@@ -63,7 +63,7 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
       }
 
       // Add new numbered line
-      const newValue = currentValue + '\n' + `${nextNumber}- `;
+      const newValue = `${currentValue}\n${nextNumber}- `;
       setFormData({
         ...formData,
         program_name: newValue
