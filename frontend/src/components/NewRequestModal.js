@@ -3,11 +3,10 @@ import config from '../config';
 
 const NewRequestModal = ({ onClose, onSuccess }) => {
   const [formData, setFormData] = useState({
-    station_name: '',
+    station_name: 'محطة القرآن الكريم',
+    session_name: '',
+    broadcast_type: '',
     program_name: '',
-    broadcast_date: '',
-    episode_number: '',
-    presenter_name: '',
     notes: '',
   });
   const [submitting, setSubmitting] = useState(false);
@@ -30,6 +29,35 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  // Auto-numbering logic for program_name textarea
+  const handleProgramNameKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      const currentValue = formData.program_name;
+
+      // Find the last number in the text
+      const lines = currentValue.split('\n').filter(line => line.trim());
+      let nextNumber = 1;
+
+      if (lines.length > 0) {
+        const lastLine = lines[lines.length - 1];
+        const match = lastLine.match(/^(\d+)-/);
+        if (match) {
+          nextNumber = parseInt(match[1]) + 1;
+        } else {
+          nextNumber = lines.length + 1;
+        }
+      }
+
+      // Add new numbered line
+      const newValue = currentValue + (currentValue ? '\n' : '') + `${nextNumber}- `;
+      setFormData({
+        ...formData,
+        program_name: newValue
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -78,6 +106,7 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="request-details">
+            {/* Top-Right: Station Name (Read-Only) */}
             <div className="detail-item">
               <label>اسم المحطة *</label>
               <input
@@ -86,57 +115,71 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
                 value={formData.station_name}
                 onChange={handleChange}
                 required
-                placeholder="مثال: محطة القرآن الكريم"
+                placeholder="محطة القرآن الكريم"
                 readOnly
+                disabled
                 style={{ background: '#f8f9fa', cursor: 'not-allowed' }}
               />
             </div>
 
+            {/* Top-Left: Session Name (was Program Name) */}
             <div className="detail-item">
-              <label>اسم البرنامج *</label>
+              <label>اسم الدورة *</label>
               <input
                 type="text"
-                name="program_name"
-                value={formData.program_name}
+                name="session_name"
+                value={formData.session_name}
                 onChange={handleChange}
                 required
                 placeholder="مثال: برنامج التلاوة المسائية"
               />
             </div>
 
+            {/* Middle-Right: Broadcast Type Dropdown (was Broadcast Date) */}
             <div className="detail-item">
-              <label>تاريخ البث *</label>
-              <input
-                type="date"
-                name="broadcast_date"
-                value={formData.broadcast_date}
+              <label>نوع البث *</label>
+              <select
+                name="broadcast_type"
+                value={formData.broadcast_type}
                 onChange={handleChange}
                 required
-              />
+                style={{
+                  width: '100%',
+                  padding: '12px 15px',
+                  border: '2px solid var(--border-color)',
+                  borderRadius: '10px',
+                  fontSize: '16px',
+                  fontFamily: 'inherit',
+                  backgroundColor: 'white'
+                }}
+              >
+                <option value="">اختر نوع البث</option>
+                <option value="مباشر">مباشر (Live)</option>
+                <option value="مسجل">مسجل (Recorded)</option>
+              </select>
             </div>
 
-            <div className="detail-item">
-              <label>رقم الحلقة</label>
-              <input
-                type="text"
-                name="episode_number"
-                value={formData.episode_number}
+            {/* Middle-Left: DELETED (was Episode Number) */}
+
+            {/* Bottom: Program Name - Large Textarea with Auto-Numbering */}
+            <div className="detail-item" style={{ gridColumn: '1 / -1' }}>
+              <label>اسم البرنامج *</label>
+              <textarea
+                name="program_name"
+                value={formData.program_name}
                 onChange={handleChange}
-                placeholder="مثال: الحلقة 15"
+                onKeyDown={handleProgramNameKeyDown}
+                required
+                placeholder="اكتب اسم البرنامج واضغط Enter للعنصر التالي...&#10;مثال:&#10;1- folder 56&#10;2- quran&#10;3- ..."
+                rows="8"
+                style={{
+                  minHeight: '180px',
+                  resize: 'vertical'
+                }}
               />
             </div>
 
-            <div className="detail-item">
-              <label>اسم المقدم</label>
-              <input
-                type="text"
-                name="presenter_name"
-                value={formData.presenter_name}
-                onChange={handleChange}
-                placeholder="مثال: أحمد محمد"
-              />
-            </div>
-
+            {/* Bottom: Notes - Smaller Textarea */}
             <div className="detail-item" style={{ gridColumn: '1 / -1' }}>
               <label>ملاحظات</label>
               <textarea
@@ -144,6 +187,11 @@ const NewRequestModal = ({ onClose, onSuccess }) => {
                 value={formData.notes}
                 onChange={handleChange}
                 placeholder="أي ملاحظات إضافية..."
+                rows="4"
+                style={{
+                  minHeight: '100px',
+                  resize: 'vertical'
+                }}
               />
             </div>
           </div>

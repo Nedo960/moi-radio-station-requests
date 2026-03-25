@@ -487,7 +487,8 @@ body {
 }
 
 .detail-item input,
-.detail-item textarea {
+.detail-item textarea,
+.detail-item select {
   width: 100%;
   padding: 12px 15px;
   border: 2px solid var(--border-color);
@@ -497,10 +498,23 @@ body {
   font-family: inherit;
 }
 
+.detail-item select {
+  cursor: pointer;
+  background-color: white;
+}
+
 .detail-item input:focus,
-.detail-item textarea:focus {
+.detail-item textarea:focus,
+.detail-item select:focus {
   outline: none;
   border-color: var(--moi-blue);
+}
+
+.detail-item input:disabled,
+.detail-item input:read-only {
+  background: #f8f9fa;
+  cursor: not-allowed;
+  opacity: 0.8;
 }
 
 .timeline {
