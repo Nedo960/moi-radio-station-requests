@@ -93,14 +93,27 @@ app.post('/api/requests', authenticateToken, async (req, res) => {
     try {
         await client.query('BEGIN');
 
+        // Handle both old and new field names for backward compatibility
         const {
             station_name,
-            program_name,
+            session_name,      // NEW: اسم الدورة
+            broadcast_type,    // NEW: نوع البث (مباشر/مسجل)
+            program_name,      // NEW: List of programs (numbered)
+            notes,
+            // Old fields (for backward compatibility)
             broadcast_date,
             episode_number,
-            presenter_name,
-            notes
+            presenter_name
         } = req.body;
+
+        // Map new fields to database schema
+        // program_name in DB = session_name from frontend
+        // broadcast_date in DB = broadcast_type from frontend
+        // presenter_name in DB = program_name from frontend
+        const dbProgramName = session_name || program_name;
+        const dbBroadcastDate = broadcast_type || broadcast_date || new Date().toISOString().split('T')[0];
+        const dbPresenterName = program_name || presenter_name || '';
+        const dbEpisodeNumber = episode_number || '';
 
         // Generate request number
         const countResult = await client.query('SELECT COUNT(*) FROM folder_requests');
@@ -112,8 +125,8 @@ app.post('/api/requests', authenticateToken, async (req, res) => {
              episode_number, presenter_name, notes, status)
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 'pending_level1')
             RETURNING *`,
-            [requestNumber, req.user.id, station_name, program_name, broadcast_date,
-             episode_number, presenter_name, notes]
+            [requestNumber, req.user.id, station_name, dbProgramName, dbBroadcastDate,
+             dbEpisodeNumber, dbPresenterName, notes]
         );
 
         // Add to history
